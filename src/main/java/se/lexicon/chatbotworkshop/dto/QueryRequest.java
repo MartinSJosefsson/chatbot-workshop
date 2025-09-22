@@ -1,4 +1,4 @@
-package se.lexicon.chatbotworkshop;
+package se.lexicon.chatbotworkshop.dto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

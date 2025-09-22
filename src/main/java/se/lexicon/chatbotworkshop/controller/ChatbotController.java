@@ -1,4 +1,4 @@
-package se.lexicon.chatbotworkshop;
+package se.lexicon.chatbotworkshop.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.ai.chat.messages.Message;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import se.lexicon.chatbotworkshop.dto.QueryRequest;
 
 import java.util.List;
 
@@ -58,5 +59,4 @@ public class ChatbotController {
 
         return ResponseEntity.ok(aiResponse.getResult().getOutput().getText());
     }
-
 }
