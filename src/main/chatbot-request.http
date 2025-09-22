@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/chatbot/query
+Content-Type: application/json
+
+{
+  "question": "What is the square root of 556",
+  "expertiseLevel": "advanced"
+}

@@ -7,6 +7,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class ChatbotController {
     @PostMapping("/query")
     public ResponseEntity<String> generateResponse(@RequestBody @Valid QueryRequest request) {
         Message systemMessage = new SystemMessage(
-                "You are a helpful Java programming tutor. " +
+                "You are a helpful Math tutor. " +
                         "Tailor your responses to the user's expertise level: " +
                         "for beginner, use simple explanations and basic terminology; " +
                         "for intermediate, include practical use cases and best practices; " +
@@ -41,7 +42,17 @@ public class ChatbotController {
                         "Question: " + request.getQuestion()
         );
 
-        Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
+        // Build OpenAI-specific options, overriding defaults if provided
+        OpenAiChatOptions.Builder optionsBuilder = OpenAiChatOptions.builder();
+        if (request.getMaxCompletionTokens() != null) {
+            optionsBuilder.maxCompletionTokens(request.getMaxCompletionTokens());
+        }
+        if (request.getTemperature() != null) {
+            optionsBuilder.temperature(request.getTemperature());
+        }
+        OpenAiChatOptions options = optionsBuilder.build();
+
+        Prompt prompt = new Prompt(List.of(systemMessage, userMessage), options);
 
         ChatResponse aiResponse = chatModel.call(prompt);
 
